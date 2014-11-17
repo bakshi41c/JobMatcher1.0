@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/blue"
+    tools:context="com.example.appathon.MainActivity" >
+
+    <TextView
+        android:id="@+id/TVJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="JOB"
+        android:textSize="120sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/TVMatcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="MATCHER"
+        android:textSize="50sp"
+        android:layout_below="@+id/TVJob"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/userNameET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TVMatcher"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:ems="10"
+        android:hint="Name"
+        android:background="@color/white">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/phoneNumberET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userNameET"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:ems="10"
+        android:hint="Number"
+        android:background="@color/white">
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/getStartedBTN"
+        android:textColor="@color/blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneNumberET"
+        android:layout_marginTop="11dp"
+        android:text="Submit"
+        android:layout_alignRight="@+id/userNameET"
+        android:layout_alignLeft="@+id/userNameET" />
+
+</RelativeLayout>

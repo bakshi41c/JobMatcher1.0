@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootView">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding = "10dp">
+
+        <ImageView
+            android:id = "@+id/job_image_iv"
+            android:layout_width="90dp"
+            android:layout_height="120dp"
+            android:padding = "5dp"
+            android:scaleType="centerInside"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/job_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "25dp"
+            android:paddingLeft = "10dp"
+            android:textStyle="bold"
+            android:text = ""
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/job_image_iv"
+            />
+
+        <TextView
+            android:id="@+id/job_category_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20dp"
+            android:paddingLeft = "10dp"
+            android:text = "Repairs"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/job_title_tv"
+            />
+
+        <TextView
+            android:id ="@+id/description_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize = "20dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/job_category_tv"
+            android:paddingTop="15dp"
+            android:text="Description"
+             />
+
+        <TextView
+            android:id ="@+id/description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "18dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/description_label_tv"
+            android:paddingTop="15dp"
+            android:text=""
+        />
+
+
+        <TextView
+            android:id ="@+id/distance_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/description_tv"
+            android:layout_alignLeft="@+id/description_tv"
+            android:paddingTop="25dp"
+            android:text="Distance: "
+        />
+
+        <TextView
+            android:id ="@+id/distance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20dp"
+            android:layout_below="@id/description_tv"
+            android:layout_toRightOf="@id/distance_label_tv"
+            android:paddingTop="25dp"
+            android:textColor="@android:color/white"
+            android:text="0 km"
+        />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address Location"
+            android:id="@+id/maps_btn"
+            android:onClick="btnOnClick"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:ems="12"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/distance_label_tv"
+            />
+    </RelativeLayout>
+
+</ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:id="@+id/apply_btn"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:ems="12"
+        android:layout_alignParentBottom="true"
+        android:onClick="btnOnClick"/>
+
+</RelativeLayout>

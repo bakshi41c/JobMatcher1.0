@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:paddingBottom="10dp"
+    android:background="@color/blue"
+    android:clickable="true">
+
+   
+    
+    <TextView
+        android:id="@+id/moreInfoTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BookingSuccesFulHeaderTV"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:text="Please tell us more information about why you think you are right for this role"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:textColor="@color/white" />
+
+   
+
+    <EditText
+        android:id="@+id/infoWhyApplyingET"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moreInfoTV"
+        android:layout_centerHorizontal="true"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/submitBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoWhyApplyingET"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:text="Submit Application!" />
+
+</RelativeLayout>

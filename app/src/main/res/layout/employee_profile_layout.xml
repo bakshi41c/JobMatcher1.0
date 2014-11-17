@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding = "10dp">
+
+        <ImageView
+            android:id = "@+id/offer_job_image"
+            android:layout_width="90dp"
+            android:layout_height="120dp"
+            android:src = "@drawable/dummy_c"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:scaleType="fitStart"/>
+
+        <TextView
+            android:id="@+id/offer_job_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize = "25dp"
+            android:textStyle="bold"
+            android:text = "John Smith"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/offer_job_image" />
+
+        <TextView
+            android:id="@+id/offer_job_category_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20dp"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/offer_job_title_tv" />
+
+        <TextView
+            android:id ="@+id/info_label_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "20dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/offer_job_category_tv"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="30dp"
+            android:textAlignment="center"
+            android:text="Info"/>
+
+        <TextView
+            android:id ="@+id/info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize = "18dp"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/info_label_tv"
+            android:text="I repair cars."
+            android:layout_centerHorizontal="true"
+        />
+
+    </RelativeLayout>
+
+</ScrollView>
+
+    <Button
+        android:id="@+id/offer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ems="12"
+        android:onClick="onClick"
+        android:text="Offer"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/blue"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

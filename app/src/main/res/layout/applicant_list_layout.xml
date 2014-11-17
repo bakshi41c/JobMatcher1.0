@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ApplicantsListActivity">
+
+    <ListView
+        android:id="@+id/applicant_list_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:divider="@android:color/transparent"
+        android:paddingTop="10dp"
+        android:clipToPadding="false"
+        android:dividerHeight="10.0dp"
+        tools:context=".ApplicantsListActivity"
+        />
+    <!--
+    <ImageButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:text="+"
+        android:textSize="40sp"
+        android:id="@+id/fab_btn"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:elevation="4dp"
+        android:paddingBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom"
+        android:background="#00979c"
+
+        />
+        -->
+</RelativeLayout>

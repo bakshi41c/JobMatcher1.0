@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.appathon.MainActivity" >
+
+    <Button
+        android:id="@+id/jobPostBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/postJobTitleTV"
+        android:layout_marginBottom="66dp"
+        android:text="Button" />
+
+         <TextView
+             android:id="@+id/passwordTV"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/contactNumberET"
+             android:layout_below="@+id/contactNumberET"
+             android:layout_marginTop="71dp"
+             android:text="Post Job"
+             android:textSize="30dp" />
+
+         <EditText
+             android:id="@+id/contactNumberET"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/userNameTV"
+             android:layout_below="@+id/userNameTV"
+             android:layout_marginTop="61dp"
+             android:ems="10"
+             android:hint="Contact Number" />
+
+         <TextView
+             android:id="@+id/userNameTV"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/jobPostBTN"
+             android:layout_alignParentTop="true"
+             android:layout_marginTop="52dp"
+             android:text="Username"
+             android:textSize="30dp" />
+
+
+         <Button
+             android:id="@+id/Button01"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/jobPostBTN"
+             android:layout_alignBottom="@+id/jobPostBTN"
+             android:layout_marginLeft="44dp"
+             android:layout_toRightOf="@+id/userNameTV"
+             android:text="Sign in" />
+        
+</RelativeLayout>
