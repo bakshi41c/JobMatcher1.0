@@ -21,13 +21,16 @@ import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ApplicantsListActivity extends Activity {
@@ -52,7 +55,7 @@ public class ApplicantsListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 
                 Intent intent = new Intent(ApplicantsListActivity.this, ApplicantDetailsActivity.class);
-                //intent.putExtra("Id", jobList.get(position).getJobId());
+                intent.putExtra("Id", applicantList.get(position).getId());
                 startActivity(intent);
             }
         });
@@ -108,42 +111,55 @@ public class ApplicantsListActivity extends Activity {
         protected Integer doInBackground(String... params) {
 
             Log.v("AsyncTask", "Loading Data");
-            /*
+
             if(checkNetworkConnection() && isOnline()) {
-                List<ParseObject> parseObjects = fetchFeed();
+                List<ParseObject> parseObjects = fetchApplicants();
 
                 if (parseObjects == null){
                     return UNSUCCESSFUL; //"Failed to fetch data!";
                 }
 
+                Log.v("AsyncTask", "Iterating through every parse object");
                 //Converting Parse objects into Applicants Object
+
+                ArrayList<Integer> allApplicantIds = new ArrayList<Integer>();
+
                 for (int i = 0; i < parseObjects.size(); i++){
+
+                    ArrayList<Integer> applicantIds = new ArrayList<Integer>();
 
                     ParseObject parseObject = parseObjects.get(i);
 
-                    String applicantName = "";
-                    String applicantStatement = "";
-                    String applicantID = "";
+                    Log.v("AsyncTask", "Iterating through object " + Integer.toString(i));
 
-                    if(parseObject.containsKey("Name")) {
-                        applicantName = parseObject.get("name").toString();
 
+                    if (parseObject.containsKey("Applicants")){
+                        applicantIds = (ArrayList<Integer>) parseObject.get("Applicants");
+                        allApplicantIds.addAll(applicantIds);
                     }
 
-                    if(parseObject.containsKey("Statement")) {
-                        applicantStatement = parseObject.get("statement").toString();
+                }
 
-                    }
+                System.out.println(allApplicantIds);
 
-                    if(parseObject.containsKey("applicantId")) {
-                        applicantID = parseObject.get("applicantId").toString();
+                List<ParseObject> applicantDetailsObject = fetchApplicantDetails(allApplicantIds);
 
-                    }
+                for (ParseObject applicant : applicantDetailsObject){
+
+                    System.out.println();
+
+                    String applicantName = applicant.get("User_Name").toString();
+                    String applicantStatement = " ";
+                    String applicantID = applicant.get("User_ID").toString();
+
 
                     applicantList.add(new Applicant(applicantID,applicantName,applicantStatement));
 
 
                 }
+
+
+
 
             }else {
                 return NO_CONNECTION;
@@ -154,13 +170,12 @@ public class ApplicantsListActivity extends Activity {
             return SUCCESSFULL;
         }
 
-        */
-            applicantList.add(new Applicant("1","Mark Hannity","Not much experience but enthusiastic about cars."));
-            applicantList.add(new Applicant("2","John Smith","I repair cars."));
-            applicantList.add(new Applicant("3","Chris Sean","Hi, I am looking for work experience."));
 
-            return SUCCESSFULL;
-        }
+            //applicantList.add(new Applicant("1","Mark Hannity","Not much experience but enthusiastic about cars."));
+            //applicantList.add(new Applicant("2","John Smith","I repair cars."));
+            //applicantList.add(new Applicant("3","Chris Sean","Hi, I am looking for work experience."));
+
+
         @Override
         protected void onPostExecute(Integer result) {
             setProgressBarIndeterminateVisibility(false);
@@ -190,13 +205,15 @@ public class ApplicantsListActivity extends Activity {
     }
 
 
-    private List<ParseObject> fetchFeed() {
+    private List<ParseObject> fetchApplicants() {
 
-        //fetch items from parse
+        //fetch applicants for a job
 
-        List<ParseObject> parseList;
+        List<ParseObject> parseList = null;
 
         //getBounds()
+
+        Log.v("ApplicantListActivity", "Fetching Feed");
 
         Parse.initialize(this, applicationKEY, clientKEY);
         ParseUser.enableAutomaticUser();
@@ -205,9 +222,49 @@ public class ApplicantsListActivity extends Activity {
         ParseACL.setDefaultACL(defaultACL, true);
         //TODO: Change the query
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("PostingJob");
-        query.orderByDescending("_created_at");
+        query.whereEqualTo("Creator_Id", "25");
+
         try {
             parseList = query.find();
+            Log.v("Applicants", parseList.get(0).toString());
+            return parseList;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    private List<ParseObject> fetchApplicantDetails(ArrayList<Integer> applicantIDs) {
+
+        //fetch applicants for a job
+
+        List<ParseObject> parseList = null;
+
+        //getBounds()
+
+        ArrayList<String> applicantIDString = new ArrayList<String>();
+
+        for(Integer applicantId : applicantIDs){
+
+            applicantIDString.add(applicantId.toString());
+
+        }
+
+        Log.v("ApplicantListActivity", "Fetching Applicant Details");
+
+        Parse.initialize(this, applicationKEY, clientKEY);
+        ParseUser.enableAutomaticUser();
+        ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        ParseACL.setDefaultACL(defaultACL, true);
+        //TODO: Change the query
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User");
+        query.whereContainedIn("User_ID", applicantIDString);
+
+        try {
+            parseList = query.find();
+            //Log.v("Applicants", parseList.get(0).toString());
             return parseList;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -296,7 +353,6 @@ public class ApplicantsListActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_page, menu);
         return true;
     }
 
@@ -305,10 +361,7 @@ public class ApplicantsListActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 }

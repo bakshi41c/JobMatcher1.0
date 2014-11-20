@@ -38,18 +38,13 @@ public class ApplicantDetailsActivity extends Activity {
 
     TextView job_title_tv ;
     TextView job_category_tv;
-    TextView distance_tv;
-    TextView description_tv;
-    TextView description_label_tv;
-    TextView distance_label_tv;
 
     ImageView job_image_iv;
-
-    Job mJob;
 
     Button map_btn;
     Button apply_btn;
 
+    String applicantID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +52,13 @@ public class ApplicantDetailsActivity extends Activity {
         setContentView(R.layout.employee_profile_layout);
 
         setTitle("Applicant Details");
-        /*
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("Id");
 
-        job_title_tv = (TextView)findViewById(R.id.job_title_tv);
-        job_category_tv = (TextView)findViewById(R.id.job_category_tv);
-        distance_tv = (TextView)findViewById(R.id.distance_tv);
-        description_tv = (TextView)findViewById(R.id.description_tv);
-        distance_label_tv = (TextView)findViewById(R.id.distance_label_tv);
-        description_label_tv = (TextView)findViewById(R.id.description_label_tv);
+        Intent intent = getIntent();
+        applicantID = intent.getStringExtra("Id");
+
+        job_title_tv = (TextView)findViewById(R.id.offer_job_title_tv);
+        job_category_tv = (TextView)findViewById(R.id.info_tv);
+
 
         job_image_iv = (ImageView)findViewById(R.id.job_image_iv);
 
@@ -74,24 +66,14 @@ public class ApplicantDetailsActivity extends Activity {
         apply_btn = (Button)findViewById(R.id.apply_btn);
 
 
-        //new DownloadJobDataTask().execute(id);
-        */
+        new DownloadJobDataTask().execute();
+
 
     }
 
     public void onClick(View view) throws InterruptedException {
         switch(view.getId()){
 
-            case R.id.maps_btn:
-
-                if (mJob != null){
-                    String geoUri = "http://maps.google.com/maps?q=loc:" + mJob.getLocationLat() + ","
-                            +  mJob.getLocationLon() + " (" + "Job" + ")";
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-                    startActivity(intent);
-                }
-
-                break;
 
             case R.id.offer_btn:
                 Thread.sleep(500);
@@ -101,7 +83,7 @@ public class ApplicantDetailsActivity extends Activity {
         }
     }
 
-    public class DownloadJobDataTask extends AsyncTask<String, Void, Job> {
+    public class DownloadJobDataTask extends AsyncTask<String, Void, Applicant> {
 
         private final int NO_CONNECTION = 2;
         private final int SUCCESSFULL = 1;
@@ -114,185 +96,77 @@ public class ApplicantDetailsActivity extends Activity {
         }
 
         @Override
-        protected Job doInBackground(String... params) {
+        protected Applicant doInBackground(String... params) {
 
             Log.v("AsyncTask", "Loading Data");
 
-            Job job;
-
-            String jobTitle = "";
-            String jobDescription = "";
-            String jobID = "";
-            String locationLan = "";
-            String locationLon = "";
-            String category = "";
-
             if(checkNetworkConnection() && isOnline()) {
-                List<ParseObject> parseObjects = fetchJobFeedUsingID(params[0]);
 
-                if (parseObjects == null){
-                    return null; //"Failed to fetch data!";
-                }
+                List<ParseObject> applicantDetailsObject = fetchApplicantDetails(applicantID);
+
+                    ParseObject applicant = applicantDetailsObject.get(0);
+                    System.out.println();
+
+                    String applicantName = applicant.get("User_Name").toString();
+                    String applicantStatement = " ";
+                    String applicantID = applicant.get("User_ID").toString();
+                    String applicantPhone = applicant.get("Mobile_Number").toString();
 
 
 
-                ParseObject parseObject = parseObjects.get(0);
+                return new Applicant(applicantID,applicantName,applicantStatement,applicantPhone);
 
 
 
-                if (parseObject.containsKey("Job_Title")) {
-                    jobTitle = parseObject.get("Job_Title").toString();
 
-                }
-
-                if (parseObject.containsKey("Job_Description")) {
-                    jobDescription = parseObject.get("Job_Description").toString();
-
-                }
-
-                if (parseObject.containsKey("jobId")) {
-                    jobID = parseObject.get("jobId").toString();
-
-                }
-
-                if (parseObject.containsKey("latitude")) {
-                    locationLan = parseObject.get("latitude").toString();
-
-                }
-
-                if (parseObject.containsKey("longitude")) {
-                    locationLon = parseObject.get("longitude").toString();
-
-                }
-
-                if (parseObject.containsKey("category")) {
-                    category = parseObject.get("category").toString();
-
-                }
 
 
             }else {
                 return null;
             }
-
-
-
-            return new Job(jobID,jobTitle,jobDescription,category,locationLan,locationLon);
         }
 
 
 
         @Override
-        protected void onPostExecute(Job job) {
+        protected void onPostExecute(Applicant applicant) {
             setProgressBarIndeterminateVisibility(false);
             /* Download complete. Lets update UI */
 
 
             Log.v("AsyncTask", "Done");
 
-            if (job != null) {
-
-                mJob = job;
-
-                job_title_tv.setText(job.getTitle());
-                job_category_tv.setText(job.getCategory());
-                description_tv.setText(job.getDescription());
-
-                Double distance = GPSCoordinates.calculateDistanceBetweenCurrentLocationAndCoordinates(
-                        ApplicantDetailsActivity.this, Double.valueOf(job.getLocationLat()),
-                        Double.valueOf(job.getLocationLon()));
+            job_title_tv.setText(applicant.getName());
+            job_category_tv.setText(applicant.getPhone());
 
 
-                distance_tv.setText(String.valueOf(Math.round(distance)) + " km");
-                distance_tv.setTextColor(Color.parseColor("#000000"));
-                description_tv.setTextColor(Color.parseColor("#000000"));
-
-                ArrayList<String> categories = new ArrayList( Arrays.asList(getResources()
-                        .getStringArray(R.array.categories_array)) );
-                ArrayList<String> colors = new ArrayList( Arrays.asList(getResources()
-                        .getStringArray(R.array.categories_colors)) );
-
-
-
-                int i = categories.indexOf(job.getCategory());
-
-                if (i < 0){
-                    i = 8;
-                }
-
-                job_image_iv.setBackgroundColor(Color.parseColor(colors.get(i)));
-                description_label_tv.setTextColor(Color.parseColor(colors.get(i)));
-                distance_label_tv.setTextColor(Color.parseColor(colors.get(i)));
-                job_title_tv.setTextColor(Color.parseColor(colors.get(i)));
-                map_btn.setTextColor(Color.parseColor(colors.get(i)));
-                apply_btn.setTextColor(Color.parseColor(colors.get(i)));
-                job_category_tv.setTextColor(Color.parseColor(colors.get(i)));
-
-                switch(i){
-                    case 0:
-                        job_image_iv.setImageResource(R.drawable.icon_charity_volunteering);
-                        break;
-
-                    case 1:
-                        job_image_iv.setImageResource(R.drawable.icon_education_teaching);
-                        break;
-
-                    case 2:
-                        job_image_iv.setImageResource(R.drawable.icon_call_centre);
-                        break;
-
-                    case 3:
-                        job_image_iv.setImageResource(R.drawable.icon_sales);
-                        break;
-
-                    case 4:
-                        job_image_iv.setImageResource(R.drawable.icon_repairs);
-                        break;
-
-                    case 5:
-                        job_image_iv.setImageResource(R.drawable.icon_personal_care);
-                        break;
-
-                    case 6:
-                        job_image_iv.setImageResource(R.drawable.icon_gardening);
-                        break;
-
-                    case 7:
-                        job_image_iv.setImageResource(R.drawable.icon_housekeeping);
-                        break;
-
-                    case 8:
-                        job_image_iv.setImageResource(R.drawable.icon_other);
-                        break;
-                }
-
-                getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(colors.get(i))));
-
-            } else {
-                Toast.makeText(ApplicantDetailsActivity.this, "Problem connecting to Server", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
 
-    private List<ParseObject> fetchJobFeedUsingID(String Id) {
 
-        //fetch items from parse
+    private List<ParseObject> fetchApplicantDetails(String applicantID) {
 
-        List<ParseObject> parseList;
+        //fetch applicants for a job
 
-        //getBounds()
+        List<ParseObject> parseList = null;
+
+
+
+        Log.v("ApplicantListActivity", "Fetching Applicant Details");
 
         Parse.initialize(this, applicationKEY, clientKEY);
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("PostingJob");
-        query.whereEqualTo("jobId",Id);
-        query.orderByDescending("_created_at");
+        //TODO: Change the query
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("User");
+        query.whereEqualTo("User_ID", applicantID);
+
         try {
             parseList = query.find();
+            //Log.v("Applicants", parseList.get(0).toString());
             return parseList;
         } catch (ParseException e) {
             e.printStackTrace();

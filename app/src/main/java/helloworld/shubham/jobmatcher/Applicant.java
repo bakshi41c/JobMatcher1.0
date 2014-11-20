@@ -20,8 +20,8 @@ public class Applicant {
         this.applicantStatement = applicantStatement;
     }
 
-    public Applicant(String applicantID, String applicantName, String applicantEmail, String applicantPhone,
-                     String applicantStatement, String applicantCategory){
+    public Applicant(String applicantID, String applicantName, String applicantStatement,
+                     String applicantPhone){
         this.applicantID = applicantID;
         this.applicantName = applicantName;
         this.applicantEmail = applicantEmail;

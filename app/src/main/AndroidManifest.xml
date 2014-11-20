@@ -44,10 +44,6 @@
             android:name=".JobOptions"
             android:label="Job Options" >
         </activity>
-        <activity
-            android:name=".JobsConfirmedApplicantsActivity"
-            android:label="@string/title_activity_jobs_confirmed_applicants" >
-        </activity>
     </application>
 
 </manifest>
